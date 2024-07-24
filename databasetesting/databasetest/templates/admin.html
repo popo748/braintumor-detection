@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AdminHub - Specialists List</title>
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Uniform Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            border-bottom: 2px solid #ddd;
+            background-color: #f9f9f9; /* Slightly different background for the header */
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1; /* Grey color on hover for data rows */
+        }
+
+        /* Add specific padding to the cells in the tbody */
+        tbody td {
+            padding-left: 20px !important;  /* Adjust the value as needed */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Adjust the logo size and text positioning */
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand img {
+            margin-top: 40px;
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .brand .text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .brand .text .patient {
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .brand .text .records {
+            font-size: 28px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: flex-end; /* Align items to the right */
+            align-items: center;
+            padding: 10px;
+        }
+
+      
+
+        nav .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .user-info span {
+            margin-right: 10px;
+        }
+
+        nav .user-info i {
+            font-size: 24px;
+        }
+
+        .delete-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <img src="{{ url_for('static', filename='image/logo.jpg') }}" alt="Logo">
+            <div class="text">
+                <span class="patient">Specialist</span>
+                <span class="records">Records</span>
+            </div>
+        </a>
+        <ul class="side-menu top">
+            <li>
+                <a href="/bas">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="/admins">
+                    <i class='bx bxs-group'></i>
+                    <span class="text">Specialist Record Table</span>
+                </a>
+            </li>
+            <li>
+                <a href="/base">
+                    <i class='bx bxs-user-plus'></i>
+                    <span class="text">Add Specialist</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('views.logout') }}" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+        <nav>
+            <div class="user-info">
+                
+                <i class='bx bxs-user-circle'></i>
+            </div>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Specialists Record Table</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="#" href="#">Specialist Record Table</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="#">Specialist information</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="delete-container">
+                    <form action="{{ url_for('views.delete_specialist', specialist_id=specialist.id) }}" method="POST">
+                        <button type="submit" class="delete-button">Delete Specialist</button>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="container">
+                <!-- Original columns -->
+                <div class="column">
+                    <div class="table-data">
+                        <div class="order">
+                            <div class="head">
+                                <h3>Specialist information</h3>
+                            </div>
+                            <div class="patient-info">
+                                <p><strong>Specialist ID:</strong> {{ specialist.submitted_userid }}</p>
+                                <p><strong>Specialist name:</strong> {{ specialist.first_name }} {{ specialist.last_name }}</p>
+                                <p><strong>Specialist email:</strong> {{ specialist.submitted_email }}</p>
+                                <p><strong>Specialist role:</strong> {{ specialist.role }}</p>
+                                <p><strong>Date Added:</strong> {{ specialist.date_added }}</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                  
+                </div>
+
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

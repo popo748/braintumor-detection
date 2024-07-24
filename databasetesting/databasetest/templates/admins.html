@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AdminHub - Specialists List</title>
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Uniform Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            border-bottom: 2px solid #ddd;
+            background-color: #f9f9f9; /* Slightly different background for the header */
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1; /* Grey color on hover for data rows */
+        }
+
+        /* Add specific padding to the cells in the tbody */
+        tbody td {
+            padding-left: 20px !important;  /* Adjust the value as needed */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Adjust the logo size and text positioning */
+        .brand {
+            display: flex; 
+            align-items: center;
+        }
+
+        .brand img {
+            margin-top: 40px;
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .brand .text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .brand .text .patient {
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .brand .text .records {
+            font-size: 28px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: flex-end; /* Align items to the right */
+            align-items: center;
+            padding: 10px;
+        }
+
+        nav .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .user-info span {
+            margin-right: 10px;
+        }
+
+        nav .user-info i {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <img src="{{ url_for('static', filename='image/logo.jpg') }}" alt="Logo">
+            <div class="text">
+                <span class="patient">Specialist</span>
+                <span class="records">Records</span>
+            </div>
+        </a>
+        <ul class="side-menu top">
+            <li>
+                <a href="/bas">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="/admins">
+                    <i class='bx bxs-group'></i>
+                    <span class="text">Specialist Record Table</span>
+                </a>
+            </li>
+            <li>
+                <a href="/base">
+                    <i class='bx bxs-user-plus'></i>
+                    <span class="text">Add Doctor</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('views.logout') }}" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+        <nav>
+            <div class="user-info">
+                
+                <i class='bx bxs-user-circle'></i>
+            </div>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Specialists Record Table</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="#">Specialist Record Table</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Specialists List</h3>
+                        <i class='bx bx-search'></i>
+                        <i class='bx bx-filter'></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Specialist ID</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for specialist in specialists %}
+                            <tr>
+                                <td><a href="{{ url_for('views.admin', specialist_id=specialist.id) }}">{{ specialist.submitted_userid }}</a></td>
+                                <td><a href="{{ url_for('views.admin', specialist_id=specialist.id) }}">{{ specialist.first_name }} {{ specialist.last_name }}</a></td>
+                                <td><a href="{{ url_for('views.admin', specialist_id=specialist.id) }}">{{ specialist.role }}</a></td>
+                                
+
+                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

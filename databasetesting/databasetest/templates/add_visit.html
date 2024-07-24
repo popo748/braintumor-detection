@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Visit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Add Visit for {{ patient.first_name }} {{ patient.last_name }}</h1>
+    <form method="POST">
+        <label for="details">Visit Details:</label>
+        <textarea id="details" name="details" required></textarea>
+        <button type="submit">Add Visit</button>
+    </form>
+</body>
+</html>

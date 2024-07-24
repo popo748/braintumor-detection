@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+
+    html, body {
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .centered-image {
+      display: flex;
+      justify-content: center;
+      margin-top: 2.5vw; /* Adjust this value as needed */
+    }
+
+    .centered-image img {
+      width: 5vw; /* Set the desired width */
+      height: 5vw; /* Set the desired height */
+    }
+
+    .icon-container {
+      display: flex; /* Use flexbox */
+      align-items: center; /* Center the icons vertically */
+      justify-content: space-between; /* Evenly distribute space between icons */
+      margin: 3% 10% 20% 10%; /* Margin as a percentage of the viewport width */
+      
+      padding: 5%;
+      
+      
+      
+  }
+
+
+  
+
+.icon-wrapper {
+  font-size: 1.4vw;
+  text-align: center;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  border: 0.1vw solid rgb(225, 225, 225); /* Border thickness as a percentage of the viewport width */
+  padding: 5%;
+  color:rgb(54, 144, 254) ;
+  background-color: white; /* Set initial background color */
+  transition: border-color 0.3s ease, background-color 0.3s ease; /* Add background-color transition */
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius:0.5vw;
+
+}
+
+.icon-wrapper:hover {
+  border-color: rgb(54, 144, 254); /* Change border color to blue when hovering */
+  background-color: rgb(54, 144, 254);
+  border: 0.15vw solid rgbrgb(54, 144, 254);
+  color: white; /* Change the color of the icon when hovering */
+  text-decoration: none;
+}
+
+.icon-wrapper i {
+  display: block;
+  margin-bottom: 1.5vw; /* Adjust the margin-bottom as needed */
+}
+
+.icon-wrapper span {
+  font-size: 1.5vw; /* Adjust font size as needed */
+  margin-top: 15px; /* Adjust spacing between icon and text */
+  padding-left: 0px; /* Add padding to the left side */
+  font-family: Georgia, serif;
+}
+
+.icon-wrapper a {
+  color: inherit; /* Set the text color to inherit from its parent */
+  text-decoration: none; /* Remove underline */
+}
+
+.icon-wrapper a:hover {
+  color: inherit; /* Maintain the same text color when hovering */
+}
+
+/* Additional CSS for moving the Specialist word left */
+.specialist-wrapper span {
+  margin-left: 0px; /* Adjust as needed to move the Specialist word left */
+}
+  
+  h1 {
+    text-align: center; 
+    padding-top: 1%; /* Margin as a percentage of the viewport width */
+    font-size: 2.0vw; /* Set the font size relative to the viewport width */
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold; 
+}
+
+
+
+  </style>
+</head>
+<body>
+  <section class="features">
+
+  <div class="centered-image">
+      <img src="{{ url_for('static', filename='image/braindyicon.png') }}">
+    </div>
+
+  </section>
+    <h1>Select your role</h1>
+   
+    
+ 
+
+    <div class="icon-container">
+        <a href="/authenticationR" class="icon-wrapper specialist-wrapper">
+          <i class="fa-solid fa-user-doctor fa-5x fa-fw"></i>
+          <span>Radiologist</span>
+        </a>
+        <a href="/authenticationN" class="icon-wrapper specialist-wrapper">
+          <i class="fa-solid fa-user-doctor fa-5x fa-fw"></i>
+          <span>Neurologist</span>
+        </a>
+        <a href="/bas?role=Admin" class="icon-wrapper"> <!-- Add icon-wrapper class here -->
+          <i class="fa-solid fa-user-gear fa-5x fa-fw"></i>
+          <span>Admin</span>
+        </a>
+    </div>
+      
+</body>
+</html>

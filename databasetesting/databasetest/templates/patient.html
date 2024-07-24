@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AdminHub - Patients List</title>
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Uniform Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            border-bottom: 2px solid #ddd;
+            background-color: #f9f9f9; /* Slightly different background for the header */
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1; /* Grey color on hover for data rows */
+        }
+
+        /* Add specific padding to the cells in the tbody */
+        tbody td {
+            padding-left: 20px !important;  /* Adjust the value as needed */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Adjust the logo size and text positioning */
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand img {
+            margin-top: 40px;
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .brand .text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .brand .text .patient {
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .brand .text .records {
+            font-size: 28px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: flex-end; /* Align items to the right */
+            align-items: center;
+            padding: 10px;
+        }
+
+        nav .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .user-info span {
+            margin-right: 10px;
+        }
+
+        nav .user-info i {
+            font-size: 24px;
+        }
+
+        .body {
+            margin-bottom: 20px; /* Adjust the value as needed */
+            margin-top: 20px;
+        }
+
+        .mri-images {
+            display: flex;
+            gap: 20px; /* Adjust the gap between images as needed */
+        }
+
+        .mri-images div {
+            text-align: center;
+        }
+
+        .mri-images img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px; /* Adjust the gap between columns as needed */
+        }
+
+        .container .column {
+            flex: 1;
+        }
+
+        .delete-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <img src="{{ url_for('static', filename='image/logo.jpg') }}" alt="Logo">
+            <div class="text">
+                <span class="patient">Patient</span>
+                <span class="records">Records</span>
+            </div>
+        </a>
+        <ul class="side-menu top">
+            <li>
+                <a href="/index">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="/patients">
+                    <i class='bx bxs-group'></i>
+                    <span class="text">Patients Record Table</span>
+                </a>
+            </li>
+            <li>
+                <a href="/homepage">
+                    <i class='bx bxs-user-plus'></i>
+                    <span class="text">Add Patient</span>
+                </a>
+            </li>
+            <li>
+                <a href="/braintumor">
+                    <i class='bx bx-scan'></i>
+                    <span class="text">Brain tumor detection</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('views.logout') }}" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+        <nav>
+            <div class="user-info">
+                <span>{{ specialist.first_name }} {{ specialist.last_name }}</span>
+                <i class='bx bxs-user-circle'></i>
+            </div>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Patient Information</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Patient Information</a></li>
+                    </ul>
+                </div>
+                <div class="delete-container">
+                    <form action="{{ url_for('views.delete_patient', patient_id=patient.id) }}" method="post">
+                        <button type="submit" class="delete-button">Delete Patient</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="column">
+                    <div class="table-data">
+                        <div class="order">
+                            <div class="head">
+                                <h3>Patient Information</h3>
+                            </div>
+                            <div class="patient-info">
+                                <p><strong>Patient Name:</strong> {{ patient.first_name }} {{ patient.last_name }}</p>
+                                <p><strong>Patient Age:</strong> {{ patient.age }}</p>
+                                <p><strong>Patient Gender:</strong> {{ patient.gender }}</p>
+                                <p><strong>Patient IC:</strong> {{ patient.patient_ic }}</p>
+                                <p><strong>Contact Number:</strong> {{ patient.contact_number }}</p>
+                                <p><strong>Specialist:</strong> {{ patient.specialist_first_name }} {{ patient.specialist_last_name }}</p>
+                                <p><strong>Patient Condition:</strong> {{ patient.condition }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-data">
+                        <div class="order">
+                            <div class="head">
+                                <h3>MRI Image Before Scanning</h3>
+                            </div>
+                            <div class="patient-info">
+                                <div class="mri-images">
+                                    {% if patient.mri_image %}
+                                        <div>
+                                            <h3>MRI Image</h3>
+                                            <img src="{{ url_for('static', filename='uploads/' ~ patient.mri_image) }}" alt="MRI Image">
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="table-data">
+                        <div class="order">
+                            <div class="head">
+                                <h3>Brain tumor prediction result</h3>
+                            </div>
+                            <div class="patient-info">
+                                {% if patient.scanned_image_path %}
+                                    <div>
+                                        <h3>Scanned MRI Image</h3>
+                                        <img src="{{ url_for('static', filename=patient.scanned_image_path) }}" alt="Scanned MRI Image">
+                                    </div>
+                                    <div class="body">
+                                        <h3>Detection Report</h3>
+                                        <p>{{ patient.detection_report }}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+    <!-- CONTENT -->
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
+

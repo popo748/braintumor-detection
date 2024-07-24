@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AdminHub</title>
+    <style>
+        /* Adjust the logo size and text positioning */
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand img {
+            margin-top: 40px;
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .brand .text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .brand .text .patient {
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .brand .text .records {
+            font-size: 28px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: flex-end; /* Align items to the right */
+            align-items: center;
+            padding: 10px;
+        }
+
+        nav .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .user-info span {
+            margin-right: 10px;
+        }
+
+        nav .user-info i {
+            font-size: 24px;
+        }
+
+        /* Grid Layout */
+        .content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            align-items: start;
+            padding: 20px;
+        }
+
+        .welcome-box {
+            grid-column: span 2;
+            background-color: #534eea;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            flex-direction: column;
+            height: 200px; /* Increased height */
+        }
+
+        .welcome {
+            font-size: 25px;
+            margin-bottom: -10px;
+        }
+
+        .doctor-name {
+            font-size: 50px;
+        }
+
+        .clock-calendar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        border-radius: 20px;
+        background-color: #ffffff;
+        color: #000000;
+        height: calc(100% + 20px); /* Increase the height by around 2cm (approximately 20px) */
+    }
+
+
+        .clock {
+            width: 150px;
+            height: 150px;
+        }
+
+        .time-date {
+            margin-top: 20px;
+            font-size: 24px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .calendar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 24px;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 5px;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+
+        .calendar-date {
+            padding: 5px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .current-date {
+            background-color: #ff6347;
+            color: white;
+        }
+
+        .table-data {
+            grid-row: span 2;
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: auto; /* Ensure it takes the required height */
+        }
+
+        .order .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .order table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order table th,
+        .order table td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        .order table th {
+            background-color: #f0f0f0;
+        }
+
+        .order table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .order .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            color: #ffffff;
+        }
+
+        .order .status.completed {
+            background-color: #28a745;
+        }
+
+        .order .status.pending {
+            background-color: #ffc107;
+        }
+
+        .order .status.process {
+            background-color: #17a2b8;
+        }
+
+        .order a {
+            color: black; /* Change the font color to black */
+            text-decoration: none; /* Remove underline */
+        }
+        
+        .order a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <img src="{{ url_for('static', filename='image/logo.jpg') }}" alt="Logo">
+            <div class="text">
+                <span class="patient">Specialist</span>
+                <span class="records">Records</span>
+            </div>
+        </a>
+        <ul class="side-menu top">
+            <li class="active">
+                <a href="#">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admins">
+                    <i class='bx bxs-group'></i>
+                    <span class="text">Specialist Record Table</span>
+                </a>
+            </li>
+            <li>
+                <a href="/base">
+                    <i class='bx bxs-user-plus'></i>
+                    <span class="text">Add Specialist</span>
+                </a>
+            </li>
+
+        </ul>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('views.logout') }}" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <div class="user-info">
+                <i class='bx bxs-user-circle'></i>
+            </div>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main class="content">
+            <div class="welcome-box">
+                <div class="welcome">Welcome back, </div>
+                <div class="doctor-name">Admin</div>
+            </div>
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Recent Specialists</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Specialist ID</th>
+                                <th>Specialist Name</th>
+                                <th>Date Added</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for specialist in specialists %}
+                            <tr>
+                                <td><a href="{{ url_for('views.admin', specialist_id=specialist.id) }}">{{ specialist.submitted_userid }}</a></td>
+                                <td><a href="{{ url_for('views.admin', specialist_id=specialist.id) }}">{{ specialist.first_name }} {{ specialist.last_name }}</a></td>
+                                <td><a href="{{ url_for('views.admin', specialist_id=specialist.id) }}">{{ specialist.date_added.strftime('%Y-%m-%d') }}</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="clock-calendar">
+                <svg class="clock" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="48" stroke="black" stroke-width="2" fill="none"/>
+                    <line id="hour-hand" x1="50" y1="50" x2="50" y2="30" stroke="black" stroke-width="4" stroke-linecap="round"/>
+                    <line id="minute-hand" x1="50" y1="50" x2="50" y2="20" stroke="black" stroke-width="3" stroke-linecap="round"/>
+                    <line id="second-hand" x1="50" y1="50" x2="50" y2="10" stroke="red" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <div class="time-date" id="time-date"></div>
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <div id="month"></div>
+                        <div id="year"></div>
+                    </div>
+                    <div class="calendar-days" id="days"></div>
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+    <script>
+        // JavaScript for live clock and date
+        function updateClock() {
+          const now = new Date();
+          const hours = now.getHours();
+          const minutes = now.getMinutes();
+          const seconds = now.getSeconds();
+      
+          // Calculate rotation angles
+          const hourAngle = 30 * hours + 0.5 * minutes;
+          const minuteAngle = 6 * minutes + 0.1 * seconds;
+          const secondAngle = 6 * seconds;
+      
+          // Update clock hands
+          document.getElementById('hour-hand').setAttribute('transform', `rotate(${hourAngle} 50 50)`);
+          document.getElementById('minute-hand').setAttribute('transform', `rotate(${minuteAngle} 50 50)`);
+          document.getElementById('second-hand').setAttribute('transform', `rotate(${secondAngle} 50 50)`);
+      
+          // Update time and date display
+          const timeDateElement = document.getElementById('time-date');
+          const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+          const day = days[now.getDay()];
+          const date = now.getDate();
+          const month = now.toLocaleString('default', { month: 'long' });
+          const hoursFormatted = hours.toString().padStart(2, '0');
+          const minutesFormatted = minutes.toString().padStart(2, '0');
+          timeDateElement.textContent = `${day} ${date} ${month} ${hoursFormatted}:${minutesFormatted}`;
+      }
+      
+      // JavaScript for calendar
+      function updateCalendar() {
+          const now = new Date();
+          const month = now.toLocaleString('default', { month: 'long' });
+          const year = now.getFullYear();
+          const daysInMonth = new Date(year, now.getMonth() + 1, 0).getDate();
+          const firstDay = new Date(year, now.getMonth(), 1).getDay();
+      
+          document.getElementById('month').textContent = month;
+          document.getElementById('year').textContent = year;
+      
+          const daysContainer = document.getElementById('days');
+          daysContainer.innerHTML = '';
+      
+          // Add day names
+          const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+          dayNames.forEach(day => {
+              const dayElement = document.createElement('div');
+              dayElement.textContent = day;
+              dayElement.style.fontFamily = 'Roboto, sans-serif'; // Apply the aesthetic font
+              dayElement.style.fontWeight = 'bold';
+              daysContainer.appendChild(dayElement);
+          });
+      
+          // Add empty slots for days before the first day of the month
+          for (let i = 0; i < firstDay; i++) {
+              const emptySlot = document.createElement('div');
+              daysContainer.appendChild(emptySlot);
+          }
+      
+          // Add days of the month
+          for (let day = 1; day <= daysInMonth; day++) {
+              const dayElement = document.createElement('div');
+              dayElement.classList.add('calendar-date');
+              if (day === now.getDate()) {
+                  dayElement.classList.add('current-date');
+              }
+              dayElement.textContent = day;
+              daysContainer.appendChild(dayElement);
+          }
+      }
+      
+      setInterval(updateClock, 1000); // Update clock every second
+      setInterval(updateCalendar, 60000); // Update calendar every minute
+      
+      // Initial call
+      updateClock();
+      updateCalendar();
+    </script>
+</body>
+</html>

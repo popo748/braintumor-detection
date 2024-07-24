@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Perform Brain Tumor Task</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border: 3px solid #333;
+            border-radius: 10px;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 20px;
+            overflow: hidden;
+        }
+
+        .icon-container i {
+            font-size: 150px;
+        }
+
+        .icon-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container label,
+        .form-container input[type="file"],
+        .form-container input[type="submit"] {
+            margin: 10px 0;
+        }
+
+        .submit-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .submit-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+        nav .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .user-info span {
+            margin-right: 10px;
+        }
+
+        nav .user-info i {
+            font-size: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand img {
+            margin-top: 40px;
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .brand .text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .brand .text .patient {
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .brand .text .records {
+            font-size: 28px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .head-title .breadcrumb {
+            display: flex;
+            align-items: center;
+        }
+
+        .head-title .breadcrumb li {
+            list-style: none;
+            margin-right: 5px;
+        }
+
+        .head-title .breadcrumb li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .head-title .breadcrumb li a.active {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <img src="{{ url_for('static', filename='image/logo.jpg') }}" alt="Logo">
+            <div class="text">
+                <span class="patient">Patient</span>
+                <span class="records">Records</span>
+            </div>
+        </a>
+        <ul class="side-menu top">
+            <li>
+                <a href="/index">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/patients">
+                    <i class='bx bxs-group'></i>
+                    <span class="text">Patients Record Table</span>
+                </a>
+            </li>  
+            
+            <li>
+                <a href="/homepage">
+                    <i class='bx bxs-user-plus'></i>
+                    <span class="text">Add Patient</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="/braintumor">
+                    <i class='bx bx-scan'></i>
+                    <span class="text">Brain tumor detection</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('views.logout') }}" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+        <nav>
+            <div class="user-info">
+                <span>{{ specialist.first_name }} {{ specialist.last_name }}</span>
+                <i class='bx bxs-user-circle'></i>
+            </div>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Perform Brain Tumor Task</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Brain tumor detection</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Upload MRI for Brain Tumor Analysis</h3>
+                    </div>
+                    <form method="get" action="{{ url_for('views.select_mri') }}" class="form-container">
+                        <div class="icon-container">
+                            {% if mri_image %}
+                            <img src="{{ url_for('static', filename='uploads/' + mri_image) }}" alt="Selected MRI Image">
+                            {% else %}
+                            <i class='bx bx-image-add'></i>
+                            {% endif %}
+                        </div>
+                        <label for="mri_image">Please select patient MRI image:</label>
+                        <input type="submit" value="Choose File">
+                    </form>
+                    {% if mri_image %}
+                    <div class="submit-button-container">
+                        <form method="post" action="{{ url_for('views.process_mri') }}">
+                            <input type="hidden" name="mri_image" value="{{ mri_image }}">
+                            <input type="hidden" name="patient_id" value="{{ patient_id }}">
+                            <input type="submit" value="Submit" class="submit-button">
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </section>
+    <!-- CONTENT -->
+</body>
+</html>
+

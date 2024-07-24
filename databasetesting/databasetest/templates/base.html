@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AdminHub</title>
+    <style>
+        /* Adjust the logo size and text positioning */
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand img {
+            margin-top: 40px;
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .brand .text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .brand .text .patient {
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .brand .text .records {
+            font-size: 28px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: flex-end; /* Align items to the right */
+            align-items: center;
+            padding: 10px;
+        }
+
+        nav .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .user-info span {
+            margin-right: 10px;
+        }
+
+        nav .user-info i {
+            font-size: 24px;
+        }
+
+        /* Grid Layout */
+        .content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            align-items: start;
+            padding: 20px;
+        }
+
+        .welcome-box {
+            grid-column: span 2;
+            background-color: #534eea;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            flex-direction: column;
+            height: 200px; /* Increased height */
+        }
+
+        .welcome {
+            font-size: 25px;
+            margin-bottom: -10px;
+        }
+
+        .doctor-name {
+            font-size: 50px;
+        }
+
+        .clock-calendar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        border-radius: 20px;
+        background-color: #ffffff;
+        color: #000000;
+        height: calc(100% + 20px); /* Increase the height by around 2cm (approximately 20px) */
+    }
+
+
+        .clock {
+            width: 150px;
+            height: 150px;
+        }
+
+        .time-date {
+            margin-top: 20px;
+            font-size: 24px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .calendar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 24px;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 5px;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+
+        .calendar-date {
+            padding: 5px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .current-date {
+            background-color: #ff6347;
+            color: white;
+        }
+
+        .table-data {
+            grid-row: span 2;
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: auto; /* Ensure it takes the required height */
+        }
+
+        .order .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .order table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order table th,
+        .order table td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        .order table th {
+            background-color: #f0f0f0;
+        }
+
+        .order table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .order .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            color: #ffffff;
+        }
+
+        .order .status.completed {
+            background-color: #28a745;
+        }
+
+        .order .status.pending {
+            background-color: #ffc107;
+        }
+
+        .order .status.process {
+            background-color: #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <img src="{{ url_for('static', filename='image/logo.jpg') }}" alt="Logo">
+            <div class="text">
+                <span class="patient">Specialist</span>
+                <span class="records">Records</span>
+            </div>
+        </a>
+        <ul class="side-menu top">
+            <li class>
+                <a href="/bas">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admins">
+                    <i class='bx bxs-group'></i>
+                    <span class="text">Specialist Record Table</span>
+                </a>
+            </li>
+           
+            <li class="active">
+                <a href="/base">
+                    <i class='bx bxs-user-plus'></i>
+                    <span class="text">Add Specialist</span>
+                </a>
+            </li>
+
+        </ul>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('views.logout') }}" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <div class="user-info">
+                <i class='bx bxs-user-circle'></i>
+            </div>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main>
+          <div class="head-title">
+              <div class="left">
+                  <h1>Add specialist</h1>
+                  <ul class="breadcrumb">
+                      <li>
+                          <a href="#">Dashboard</a>
+                      </li>
+                      <li><i class='bx bx-chevron-right'></i></li>
+                      <li>
+                          <a class="active" href="#">Add specialist</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+
+          <div class="table-data">
+              <div class="order">
+                  <div class="head">
+                      <h3>Specialist information</h3>
+                  
+                  </div>
+                  <form method="post" action="/base" enctype="multipart/form-data">
+                    <h1></h1>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            placeholder="Enter email"
+                        />
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="userid">User ID</label>
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="userid"
+                            name="userid"
+                            placeholder="Enter the user id"
+                        />
+                    </div>
+                    <div class="form-row">
+                        <label for="user_role">Role:</label>
+                        <select name="user_role" id="user_role" required>
+                            <option value="">Select a role</option>
+                            <option value="Radiologist">Radiologist</option>
+                            <option value="Neurologist">Neurologist</option>
+                            <!-- Add other roles as necessary -->
+                        </select>
+                    </div>
+                
+                    <br />
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+          </div>
+      </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+ 
+</body>
+</html>
